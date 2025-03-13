@@ -1,0 +1,25 @@
+#biatg-results {
+    margin-top: 20px;
+}
+
+#biatg-table-body img {
+    max-width: 100px;
+    height: auto;
+}
+
+.biatg-alt-input {
+    width: 100%;
+}
+
+#biatg-loading {
+    margin-top: 10px;
+    font-style: italic;
+}
+
+#biatg-error {
+    margin-top: 10px;
+}
+
+#biatg-selected-images img {
+    margin: 5px;
+}
