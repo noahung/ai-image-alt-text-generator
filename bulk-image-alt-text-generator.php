@@ -86,7 +86,7 @@ function biatg_admin_page() {
                 <button id="biatg-preview" class="button button-primary biatg-button" disabled>Preview Alt Texts <span class="dashicons dashicons-visibility"></span></button>
                 <div id="biatg-loading" class="biatg-loading" style="display: none;">
                     <span class="spinner"></span>
-                    <p>AI is analysing the pictures and generating alt text. Please wait...</p>
+                    <p>AI is analysing the pictures and generating alt text. Leave it with me. You can have a chit chat with Daron in the meantime....</p>
                 </div>
             </div>
             
