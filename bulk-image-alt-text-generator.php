@@ -112,12 +112,12 @@ function biatg_admin_page() {
                         <tr style="display: none;">
                             <td><img src="<?php echo esc_url($dummy_image1); ?>" alt="Placeholder Image" class="biatg-table-image"></td>
                             <td>[None]</td>
-                            <td><input type="text" class="biatg-alt-input" value="Placeholder alt text for image 1" disabled></td>
+                            <td><textarea class="biatg-alt-input" rows="3" disabled>Placeholder alt text for image 1</textarea></td>
                         </tr>
                         <tr style="display: none;">
                             <td><img src="<?php echo esc_url($dummy_image2); ?>" alt="Placeholder Image" class="biatg-table-image"></td>
                             <td>[None]</td>
-                            <td><input type="text" class="biatg-alt-input" value="Placeholder alt text for image 2" disabled></td>
+                            <td><textarea class="biatg-alt-input" rows="3" disabled>Placeholder alt text for image 2</textarea></td>
                         </tr>
                     </tbody>
                 </table>
