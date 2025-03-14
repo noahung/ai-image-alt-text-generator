@@ -53,6 +53,19 @@
     margin: 0;
 }
 
+.biatg-loading p {
+    margin: 0;
+    font-weight: bold; /* Make the loading message bold */
+    animation: blink 1s infinite; /* Add flashing effect */
+}
+
+/* Keyframe animation for flashing effect */
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
 /* Selected Images Section */
 .biatg-section {
     margin-bottom: 20px;
