@@ -21,14 +21,15 @@ jQuery(document).ready(function($) {
 
             var previewHtml = '';
             $.each(selectedImages, function(i, image) {
-                previewHtml += '<img src="' + image.url + '" class="biatg-image" alt="Selected image ' + (i + 1) + '">';
+                previewHtml += '<img src="' + image.url + '" class="biatg-image">';
             });
             $('#biatg-image-preview .biatg-placeholder').hide();
-            $('#biatg-image-preview').html(previewHtml); // Replace content to avoid duplicates
+            $('#biatg-image-preview').html(previewHtml);
             $('#biatg-selected-images').show();
 
             $('#biatg-image-count').text('(' + selectedImages.length + ')');
             $('#biatg-preview').prop('disabled', false);
+            console.log('Selected images:', selectedImages);
         });
 
         frame.open();
@@ -54,13 +55,14 @@ jQuery(document).ready(function($) {
             beforeSend: function() { console.log('AJAX request started...'); },
             success: function(response) {
                 $('#biatg-loading').hide();
+                console.log('AJAX response:', response);
                 if (response.success) {
                     var html = '';
                     $.each(response.data, function(i, item) {
                         html += '<tr>' +
-                            '<td><img src="' + item.url + '" class="biatg-table-image" alt="Image ' + (i + 1) + '"></td>' +
-                            '<td>' + (item.current_alt || 'None') + '</td>' +
-                            '<td><input type="text" class="biatg-alt-input" data-id="' + item.id + '" value="' + item.generated_alt + '"></td>' +
+                            '<td><img src="' + item.url + '" class="biatg-table-image"></td>' +
+                            '<td>' + (item.current_alt || '[None]') + '</td>' +
+                            '<td><textarea class="biatg-alt-input" data-id="' + item.id + '" rows="3">' + (item.generated_alt || '') + '</textarea></td>' +
                             '</tr>';
                     });
                     $('#biatg-table-body tr').hide();
