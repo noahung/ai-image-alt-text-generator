@@ -2,8 +2,8 @@
 /*
 Plugin Name: Bulk Image Alt Text Generator
 Description: Generate and manage image alt texts using OpenAI API
-Version: 1.7
-Author: Noah Grok (xAI)
+Version: 2.4
+Author: Noah
 */
 
 // Prevent direct access
@@ -13,13 +13,16 @@ if (!defined('ABSPATH')) {
 
 // Add top-level menu and submenu items
 function biatg_add_menu_items() {
+    // Use the custom icon URL
+    $icon_url = plugin_dir_url(__FILE__) . 'assets/plugin-icon.png';
+
     add_menu_page(
         'Alt Text Generator AI',
         'Alt Text Generator AI',
         'manage_options',
         'bulk-alt-text-generator',
         'biatg_admin_page',
-        'dashicons-images-alt2',
+        $icon_url, // Use the custom icon URL instead of a Dashicon
         25
     );
 
@@ -50,7 +53,7 @@ function biatg_enqueue_scripts($hook) {
     }
     
     wp_enqueue_style('biatg_styles', plugin_dir_url(__FILE__) . 'css/style.css');
-    wp_enqueue_script('biatg_script', plugin_dir_url(__FILE__) . 'js/script.js', array('jquery'), '1.7', true);
+    wp_enqueue_script('biatg_script', plugin_dir_url(__FILE__) . 'js/script.js', array('jquery'), '2.4', true);
     
     wp_enqueue_media();
     
@@ -71,9 +74,12 @@ function biatg_admin_page() {
         <div id="biatg-container">
             <button id="biatg-select-images" class="button button-secondary">Select Images</button>
             <button id="biatg-preview" class="button button-primary" disabled>Preview Alt Texts</button>
+            <div id="biatg-loading" style="display: none; margin-left: 10px; display: inline-block;">
+                <p style="font-style: italic; color: #0073aa;">AI is analysing the pictures and generating the image alt text. Please leave it with me. You can have a chit chat with Daron in the meantime.</p>
+            </div>
             
             <div id="biatg-selected-images" style="margin-top: 20px; display: none;">
-                <h3>Selected Images</h3>
+                <h3>Selected Images <span id="biatg-image-count"></span></h3>
                 <div id="biatg-image-preview"></div>
             </div>
             
@@ -84,17 +90,12 @@ function biatg_admin_page() {
                             <th>Image</th>
                             <th>Current Alt Text</th>
                             <th>Generated Alt Text</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="biatg-table-body"></tbody>
                 </table>
-                <button id="biatg-save" class="button button-primary" style="display: none;">Save Alt Texts</button>
-                <div id="biatg-loading" style="display: none;">
-                    <img src="https://via.placeholder.com/200x200" alt="Daron Placeholder" style="max-width: 200px; height: auto; margin-bottom: 10px;" />
-                    <p>AI is analysing the pictures and generating the image alt text. Please leave it with me. You can have a chit chat with Daron in the meantime.</p>
-                </div>
-                <div id="biatg-error" style="color: red; display: none;"></div>
+                <button id="biatg-save" class="button button-primary" style="display: none; margin-top: 10px;">Save Alt Texts</button>
+                <div id="biatg-error" style="color: red; display: none; margin-top: 10px;"></div>
             </div>
         </div>
     </div>
@@ -117,6 +118,13 @@ function biatg_settings_page() {
                         <p class="description">Enter your OpenAI API key here. You can get one from <a href="https://platform.openai.com/account/api-keys" target="_blank">OpenAI</a>. Keep it secure and do not share it.</p>
                     </td>
                 </tr>
+                <tr>
+                    <th><label for="biatg_chatgpt_prompt">ChatGPT Prompt for Alt Text</label></th>
+                    <td>
+                        <textarea name="biatg_chatgpt_prompt" id="biatg_chatgpt_prompt" rows="5" class="large-text"><?php echo esc_textarea(get_option('biatg_chatgpt_prompt', 'Generate a descriptive alt text for this image for SEO purposes')); ?></textarea>
+                        <p class="description">Enter the prompt to use for generating alt texts. For example: "Generate a concise alt text for this image in a professional tone for accessibility and SEO."</p>
+                    </td>
+                </tr>
             </table>
             <?php submit_button(); ?>
         </form>
@@ -127,6 +135,7 @@ function biatg_settings_page() {
 // Register settings
 function biatg_register_settings() {
     register_setting('biatg_settings_group', 'biatg_openai_api_key');
+    register_setting('biatg_settings_group', 'biatg_chatgpt_prompt');
 }
 add_action('admin_init', 'biatg_register_settings');
 
@@ -188,6 +197,12 @@ function biatg_generate_alt_text_from_openai($image_url, $api_key) {
         return 'Error: No API key provided.';
     }
 
+    // Get the custom ChatGPT prompt from settings, with a default fallback
+    $prompt = get_option('biatg_chatgpt_prompt', 'Generate a descriptive alt text for this image for SEO purposes');
+    if (empty($prompt)) {
+        $prompt = 'Generate a descriptive alt text for this image for SEO purposes';
+    }
+
     $response = wp_remote_post('https://api.openai.com/v1/chat/completions', array(
         'headers' => array(
             'Authorization' => 'Bearer ' . $api_key,
@@ -199,7 +214,7 @@ function biatg_generate_alt_text_from_openai($image_url, $api_key) {
                 array(
                     'role' => 'user',
                     'content' => array(
-                        array('type' => 'text', 'text' => 'Generate a descriptive alt text for this image for SEO purposes'),
+                        array('type' => 'text', 'text' => $prompt),
                         array('type' => 'image_url', 'image_url' => array('url' => $image_url))
                     )
                 )
