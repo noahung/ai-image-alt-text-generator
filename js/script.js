@@ -47,49 +47,64 @@ jQuery(document).ready(function($) {
             return;
         }
 
+        // Forcefully show loading message immediately
+        console.log('Attempting to show loading message...');
+        $('#biatg-loading').css('display', 'block !important').hide().fadeIn(500); // Fade in to ensure visibility
+        $('#biatg-error').css('display', 'none');
+        $('#biatg-results').css('display', 'none');
+        $('#biatg-save').css('display', 'none');
+
         var image_ids = selectedImages.map(function(image) {
             return image.id;
         });
 
-        $('#biatg-loading').show();
-        $('#biatg-error').hide();
-        $('#biatg-results').hide();
-        $('#biatg-save').hide();
+        console.log('Starting AJAX call with image IDs:', image_ids);
 
-        $.ajax({
-            url: biatg_ajax.ajax_url,
-            method: 'POST',
-            data: {
-                action: 'biatg_generate_alt_texts',
-                nonce: biatg_ajax.nonce,
-                image_ids: image_ids
-            },
-            success: function(response) {
-                $('#biatg-loading').hide();
-                if (response.success) {
-                    var html = '';
-                    $.each(response.data, function(i, item) {
-                        html += '<tr>' +
-                            '<td><img src="' + item.url + '" style="max-width: 100px; height: auto;"></td>' +
-                            '<td>' + (item.current_alt || 'None') + '</td>' +
-                            '<td><input type="text" class="biatg-alt-input" data-id="' + item.id + '" value="' + item.generated_alt + '"></td>' +
-                            '<td>' + (item.generated_alt.includes('Error') || item.generated_alt.includes('Failed') ? '<span style="color: red;">' + item.generated_alt + '</span>' : '') + '</td>' +
-                            '</tr>';
+        // Simulate a slight delay to ensure UI updates
+        setTimeout(function() {
+            $.ajax({
+                url: biatg_ajax.ajax_url,
+                method: 'POST',
+                data: {
+                    action: 'biatg_generate_alt_texts',
+                    nonce: biatg_ajax.nonce,
+                    image_ids: image_ids
+                },
+                beforeSend: function() {
+                    console.log('AJAX request started...');
+                },
+                success: function(response) {
+                    console.log('AJAX Success:', response);
+                    $('#biatg-loading').fadeOut(500, function() {
+                        $(this).css('display', 'none');
                     });
-                    $('#biatg-table-body').html(html);
-                    $('#biatg-results').show();
-                    $('#biatg-save').show();
-                } else {
-                    $('#biatg-error').text(response.data).show();
+                    if (response.success) {
+                        var html = '';
+                        $.each(response.data, function(i, item) {
+                            html += '<tr>' +
+                                '<td><img src="' + item.url + '" style="max-width: 100px; height: auto;"></td>' +
+                                '<td>' + (item.current_alt || 'None') + '</td>' +
+                                '<td><input type="text" class="biatg-alt-input" data-id="' + item.id + '" value="' + item.generated_alt + '"></td>' +
+                                '<td>' + (item.generated_alt.includes('Error') || item.generated_alt.includes('Failed') ? '<span style="color: red;">' + item.generated_alt + '</span>' : '') + '</td>' +
+                                '</tr>';
+                        });
+                        $('#biatg-table-body').html(html);
+                        $('#biatg-results').css('display', 'block');
+                        $('#biatg-save').css('display', 'inline-block');
+                    } else {
+                        $('#biatg-error').text(response.data).css('display', 'block');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('AJAX Error:', status, error);
+                    console.log('Response:', xhr.responseText);
+                    $('#biatg-loading').fadeOut(500, function() {
+                        $(this).css('display', 'none');
+                    });
+                    $('#biatg-error').text('AJAX Error: ' + error + ' - ' + xhr.responseText).css('display', 'block');
                 }
-            },
-            error: function(xhr, status, error) {
-                $('#biatg-loading').hide();
-                $('#biatg-error').text('AJAX Error: ' + error).show();
-                console.log('AJAX Error:', status, error);
-                console.log('Response:', xhr.responseText);
-            }
-        });
+            });
+        }, 100); // Small delay to ensure UI updates
     });
 
     // Save alt texts
@@ -102,8 +117,8 @@ jQuery(document).ready(function($) {
             });
         });
 
-        $('#biatg-loading').show();
-        $('#biatg-error').hide();
+        $('#biatg-loading').css('display', 'block !important').hide().fadeIn(500);
+        $('#biatg-error').css('display', 'none');
 
         $.ajax({
             url: biatg_ajax.ajax_url,
@@ -114,18 +129,20 @@ jQuery(document).ready(function($) {
                 alt_texts: alt_texts
             },
             success: function(response) {
-                $('#biatg-loading').hide();
+                $('#biatg-loading').fadeOut(500, function() {
+                    $(this).css('display', 'none');
+                });
                 if (response.success) {
                     alert('Alt texts saved successfully!');
                 } else {
-                    $('#biatg-error').text(response.data).show();
+                    $('#biatg-error').text(response.data).css('display', 'block');
                 }
             },
             error: function(xhr, status, error) {
-                $('#biatg-loading').hide();
-                $('#biatg-error').text('AJAX Error: ' + error).show();
-                console.log('AJAX Error:', status, error);
-                console.log('Response:', xhr.responseText);
+                $('#biatg-loading').fadeOut(500, function() {
+                    $(this).css('display', 'none');
+                });
+                $('#biatg-error').text('AJAX Error: ' + error + ' - ' + xhr.responseText).css('display', 'block');
             }
         });
     });
