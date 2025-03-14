@@ -55,11 +55,10 @@
 
 .biatg-loading p {
     margin: 0;
-    font-weight: bold; /* Make the loading message bold */
-    animation: blink 1s infinite; /* Add flashing effect */
+    font-weight: bold;
+    animation: blink 1s infinite;
 }
 
-/* Keyframe animation for flashing effect */
 @keyframes blink {
     0% { opacity: 1; }
     50% { opacity: 0.3; }
@@ -77,13 +76,20 @@
     margin-bottom: 10px;
 }
 
+.biatg-image-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+}
+
 #biatg-selected-images img {
-    margin: 5px; /* Consistent spacing around each thumbnail */
-    max-width: 100px !important; /* Force thumbnail size */
-    max-height: 100px !important; /* Force thumbnail size */
-    width: 100px !important; /* Fixed width */
-    height: 100px !important; /* Fixed height */
-    object-fit: cover !important; /* Ensure proper scaling and cropping */
+    margin: 5px;
+    max-width: 100px !important;
+    max-height: 100px !important;
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: cover !important;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -91,13 +97,7 @@
 }
 
 #biatg-selected-images img:hover {
-    opacity: 0.8; /* Subtle hover effect */
-}
-
-.biatg-image-grid {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    opacity: 0.8;
 }
 
 .biatg-help-text {
@@ -122,6 +122,7 @@
 .biatg-table td {
     padding: 12px;
     border-bottom: 1px solid #ddd;
+    vertical-align: top; /* Align text at the top to match the image */
 }
 
 .biatg-table-image {
@@ -140,18 +141,23 @@
     opacity: 0.8;
 }
 
-.biatg-alt-input {
+#biatg-table-body .biatg-alt-input {
     width: 100%;
+    min-height: 60px !important; /* Ensure enough space for multi-line text */
     padding: 6px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
     box-sizing: border-box;
+    resize: vertical !important; /* Allow vertical resizing */
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    overflow: auto !important; /* Ensure scroll if text exceeds height */
 }
 
-.biatg-alt-input:focus {
-    outline: none;
-    border-color: #0073aa;
-    box-shadow: 0 0 5px rgba(0, 115, 170, 0.3);
+#biatg-table-body .biatg-alt-input:focus {
+    outline: none !important;
+    border-color: #0073aa !important;
+    box-shadow: 0 0 5px rgba(0, 115, 170, 0.3) !important;
 }
 
 /* Error and Save Button */
@@ -192,5 +198,9 @@
     .biatg-table td {
         padding: 8px;
         font-size: 12px;
+    }
+
+    #biatg-table-body .biatg-alt-input {
+        min-height: 50px !important; /* Adjust for smaller screens */
     }
 }
