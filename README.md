@@ -69,5 +69,3 @@ The Bulk Image Alt Text Generator is a WordPress plugin that leverages the power
 - **PHP**: Version 7.4 or higher.
 - **OpenAI API Key**: Required for AI-powered alt text generation. Sign up at [OpenAI](https://platform.openai.com/signup) to get your key.
 - **Media Library Access**: The plugin requires access to your WordPress media library to fetch and update image metadata.
-
-## Folder Structure
