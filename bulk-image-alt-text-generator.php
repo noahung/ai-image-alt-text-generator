@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 // Add top-level menu and submenu items
 function biatg_add_menu_items() {
     // Use the custom icon URL
-    $icon_url = plugin_dir_url(__FILE__) . 'assets/plugin-icon.png';
+    $icon_url = plugin_dir_url(__FILE__) . 'plugin-icon.png';
 
     add_menu_page(
         'Alt Text Generator AI',
