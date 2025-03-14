@@ -86,7 +86,7 @@ function biatg_admin_page() {
                 <button id="biatg-preview" class="button button-primary biatg-button" disabled>Preview Alt Texts <span class="dashicons dashicons-visibility"></span></button>
                 <div id="biatg-loading" class="biatg-loading" style="display: none;">
                     <span class="spinner"></span>
-                    <p>AI is analyzing the pictures and generating alt text. Please wait...</p>
+                    <p>AI is analysing the pictures and generating alt text. Please wait...</p>
                 </div>
             </div>
             
@@ -149,7 +149,7 @@ function biatg_settings_page() {
                     <th><label for="biatg_chatgpt_prompt">ChatGPT Prompt</label></th>
                     <td>
                         <textarea name="biatg_chatgpt_prompt" id="biatg_chatgpt_prompt" rows="5" class="large-text"><?php echo esc_textarea(get_option('biatg_chatgpt_prompt', 'Generate a descriptive alt text for this image for SEO purposes')); ?></textarea>
-                        <p class="description">Customize the prompt for generating alt texts (e.g., "Generate a concise alt text for SEO").</p>
+                        <p class="description">Customise the prompt for generating alt texts (e.g., "Generate a concise alt text for SEO").</p>
                     </td>
                 </tr>
             </table>
