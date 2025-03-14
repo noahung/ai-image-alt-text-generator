@@ -1,34 +1,183 @@
-#biatg-results {
-    margin-top: 20px;
+/* General Styling */
+.biatg-title {
+    font-size: 24px;
+    color: #1a1a1a;
+    margin-bottom: 20px;
 }
 
-#biatg-table-body img {
-    max-width: 100px;
-    height: auto;
+#biatg-container {
+    max-width: 1000px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Actions Section */
+.biatg-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.biatg-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.biatg-button:hover {
+    opacity: 0.9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.biatg-button .dashicons {
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.biatg-loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #0073aa;
+    font-style: italic;
+}
+
+.biatg-loading .spinner {
+    visibility: visible;
+    float: none;
+    margin: 0;
+}
+
+/* Selected Images Section */
+.biatg-section {
+    margin-bottom: 20px;
+}
+
+.biatg-section h3 {
+    font-size: 18px;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+}
+
+#biatg-selected-images img {
+    margin: 5px; /* Consistent spacing around each thumbnail */
+    max-width: 100px !important; /* Force thumbnail size */
+    max-height: 100px !important; /* Force thumbnail size */
+    width: 100px !important; /* Fixed width */
+    height: 100px !important; /* Fixed height */
+    object-fit: cover !important; /* Ensure proper scaling and cropping */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease;
+}
+
+#biatg-selected-images img:hover {
+    opacity: 0.8; /* Subtle hover effect */
+}
+
+.biatg-image-grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.biatg-help-text {
+    font-size: 13px;
+    color: #666;
+    margin-top: 10px;
+}
+
+/* Results Table */
+.biatg-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.biatg-table th {
+    background: #f9f9f9;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+}
+
+.biatg-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.biatg-table-image {
+    max-width: 100px !important;
+    max-height: 100px !important;
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: cover !important;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease;
+}
+
+.biatg-table-image:hover {
+    opacity: 0.8;
 }
 
 .biatg-alt-input {
     width: 100%;
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
-#biatg-loading {
-    display: none;
-    margin-left: 10px;
+.biatg-alt-input:focus {
+    outline: none;
+    border-color: #0073aa;
+    box-shadow: 0 0 5px rgba(0, 115, 170, 0.3);
 }
 
-#biatg-loading p {
-    margin: 0;
-}
-
-#biatg-error {
-    margin-top: 15px;
+/* Error and Save Button */
+.biatg-error {
     padding: 10px;
-    background: #ffe6e6;
-    border: 1px solid #ff3333;
-    border-radius: 3px;
-    display: none;
+    background: #ffebee;
+    border-left: 4px solid #d32f2f;
+    margin-top: 10px;
+    font-size: 14px;
 }
 
-#biatg-selected-images img {
-    margin: 5px;
+/* Responsive Design */
+@media (max-width: 600px) {
+    .biatg-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .biatg-button {
+        width: 100%;
+    }
+
+    #biatg-selected-images img {
+        max-width: 80px !important;
+        max-height: 80px !important;
+        width: 80px !important;
+        height: 80px !important;
+    }
+
+    .biatg-table-image {
+        max-width: 80px !important;
+        max-height: 80px !important;
+        width: 80px !important;
+        height: 80px !important;
+    }
+
+    .biatg-table th,
+    .biatg-table td {
+        padding: 8px;
+        font-size: 12px;
+    }
 }
